@@ -208,3 +208,36 @@ Point.new(0, 0)
 h Enum.reduce/3
 
 ```
+
+## Conway's game of life
+
+Conway's game of life is played by the computer on a grid. It has the rules, given a list of "cells", to determine the next generation.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Rules:
+
+1. IF a cell has less than `2` neighbors, then in the next generation it will die.
+2. If a cell has more than `3` neighbors, in the next generation, it will die of overcrowding.
+3. If a cell has exactly `2` neighbors, in the next generation, it will stay the same.
+4. if a cell has exactly `3` neighbors, in the generation, it will spring to life.
+
+```elixir
+defmodule Life.Core do
+  def new() do
+    for _i <- 1..500 do
+      x = :rand.uniform(40)
+      y = :rand.uniform(40)
+      {x, y}
+    end
+  end
+end
+```
+
+```elixir
+alias Life.Core
+
+Core.new()
+|> Canvas.new()
+|> Canvas.show()
+```
