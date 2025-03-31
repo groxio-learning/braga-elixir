@@ -4,6 +4,8 @@
 Mix.install([
   {:kino, "~> 0.15.3"}
 ])
+
+import IEx.Helpers
 ```
 
 ## SVG example
@@ -25,16 +27,51 @@ input = "42"
 
 reducer = fn acc, number -> acc + number end
 
+converter = fn acc -> "The ants ARRR is #{acc}" end
+
 input  # "42"
 |> String.to_integer() # 42
 |> reducer.(1) # 43
 |> reducer.(2) # 45
 |> reducer.(3) # 48
-
+|> converter.()
 
 ```
 
 ```elixir
+defmodule Counter do
+  def new(string) do
+    String.to_integer(string)
+  end
+
+  def add(acc, int) do
+    acc + int
+  end
+
+  def show(acc) do
+    "The ants ARR is #{acc}"
+  end
+end
+```
+
+```elixir
+"42"
+|> Counter.new()
+|> Counter.add(1)
+|> Counter.add(2)
+|> Counter.add(3)
+|> Counter.show()
+```
+
+```elixir
+list = [1, 2, 3]
+input = "42"
+accumulator = 0
+
+list 
+|> Enum.reduce(Counter.new(input), &Counter.add/2)
+|> Counter.show()
+
 
 ```
 
@@ -45,4 +82,29 @@ input  # "42"
 </svg>
 """
 |> Kino.Image.new(:svg)
+```
+
+## Points
+
+```elixir
+defmodule Point do
+  def new(x, y) do
+    {x, y}
+  end
+
+  def right({x, y}) do
+    {x + 1, y}
+  end
+end
+```
+
+```elixir
+Point.new(0, 0)
+|> i()
+
+```
+
+```elixir
+h Enum.reduce/3
+
 ```
