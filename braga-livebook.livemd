@@ -8,6 +8,36 @@ Mix.install([
 
 ## SVG example
 
+This is a CRC example.
+
+* C
+* R
+* C
+
+This is a mental mnemonic that stands for
+
+* Construct
+* Reduce
+* Convert
+
+```elixir
+input = "42"
+
+reducer = fn acc, number -> acc + number end
+
+input  # "42"
+|> String.to_integer() # 42
+|> reducer.(1) # 43
+|> reducer.(2) # 45
+|> reducer.(3) # 48
+
+
+```
+
+```elixir
+
+```
+
 ```elixir
 """
 <svg width="300" height="130" xmlns="http://www.w3.org/2000/svg">
