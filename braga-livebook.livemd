@@ -86,10 +86,23 @@ list
 
 ```elixir
 defmodule Canvas do
-  def new(point) do
+  def new(point) when is_tuple(point) do
     """
     <svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
      #{Point.show(point)}
+    </svg>
+    """
+  end
+
+  def new(points) when is_list(points) do
+    points =
+      Enum.map(points, fn point -> 
+        Point.show(point)
+        end)
+
+    """
+    <svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+      #{points}
     </svg>
     """
   end
@@ -103,6 +116,21 @@ end
 
 ```elixir
 Point.new(4, 2)
+|> Point.right()
+|> Point.down()
+|> Point.down()
+|> Point.down()
+|> Point.down()
+|> Canvas.new()
+|> Canvas.show()
+```
+
+```elixir
+[Point.new(4, 2), 
+  Point.new(5, 2), 
+  Point.new(4, 3), 
+  Point.new(3, 3)]
+|> Point.right()
 |> Canvas.new()
 |> Canvas.show()
 ```
@@ -126,17 +154,35 @@ defmodule Point do
     {x + 1, y}
   end
 
+  def right(points) when is_list(points) do
+    Enum.map(points, &right/1)
+  end
+
   def left({x, y}) do
     {x - 1, y}
+  end
+
+  def left(points) when is_list(points) do
+    Enum.map(points, &left/1)
   end
 
   def up({x, y}) do
     {x, y-1}
   end
 
+  def up(points) when is_list(points) do
+    Enum.map(points, &up/1)
+  end
+
   def down({x, y}) do
     {x, y + 1}
   end
+
+  def down(points) when is_list(points) do
+    Enum.map(points, &down/1)
+  end
+
+
 
   def show({x, y}) do
     x = x * 20 
